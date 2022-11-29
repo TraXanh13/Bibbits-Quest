@@ -76,14 +76,37 @@ public class PlayerMovement : MonoBehaviour
         } else {
             wallJumpCD += Time.deltaTime;
         }
+
+        if(onWall())
+            wallSlide();
+
+        // checkTriggerReset();
+    }
+
+    private void wallSlide(){
+        if(body.velocity.y <= 0){
+            body.velocity = new Vector2(body.velocity.x, -4);
+        }
+    }
+
+    private void checkTriggerReset() {
+        if(isGrounded() || onWall()) {
+            anim.ResetTrigger("jump");
+            // TODO: DEBUG JUMP TRIGGER
+            // print("Resetting jump trigger");
+        }
     }
 
     private void Jump() {
         if(isGrounded()){
             anim.SetTrigger("jump");
+            // TODO: DEBUG JUMP TRIGGER
+            // print("Jump triggered");
             body.velocity = new Vector2(body.velocity.x, jumpHeight);
         } else if(onWall() && !isGrounded()) {
             anim.SetTrigger("jump");
+            // TODO: DEBUG JUMP TRIGGER
+            // print("Jump triggered");
             // Mathf.Sign returns the direction the character is facing (+ right, - left)
             body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 3, jumpHeight/2);
             wallJumpCD = 0;
