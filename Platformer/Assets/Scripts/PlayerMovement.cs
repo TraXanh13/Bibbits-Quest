@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     private BoxCollider2D boxCollider;
 
-    private float wallJumpCD;
+    private float jumpCD;
     private float horizontal;
 
     [SerializeField] private float speed;
@@ -51,9 +51,7 @@ public class PlayerMovement : MonoBehaviour
         {
             characterScale.x = -1;
         }
-        transform.localScale = characterScale;
-
-        
+        transform.localScale = characterScale;      
 
         // Sets the animation to idle if the player is not moving
         anim.SetBool("isWalking", horizontal != 0);
@@ -61,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool("onWall", onWall());
 
         // Wall jump logic
-        if(wallJumpCD > 0.2f){
+        if(jumpCD > 0.2f){
             body.velocity = new Vector2(horizontal * speed, body.velocity.y);
 
             if(onWall() && !isGrounded()) {
@@ -74,13 +72,11 @@ public class PlayerMovement : MonoBehaviour
                 Jump();
             }
         } else {
-            wallJumpCD += Time.deltaTime;
+            jumpCD += Time.deltaTime;
         }
 
         if(onWall())
             wallSlide();
-
-        // checkTriggerReset();
     }
 
     private void wallSlide(){
@@ -89,27 +85,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void checkTriggerReset() {
-        if(isGrounded() || onWall()) {
-            anim.ResetTrigger("jump");
-            // TODO: DEBUG JUMP TRIGGER
-            // print("Resetting jump trigger");
-        }
-    }
-
     private void Jump() {
+        // Normal Jump
         if(isGrounded()){
             anim.SetTrigger("jump");
-            // TODO: DEBUG JUMP TRIGGER
-            // print("Jump triggered");
             body.velocity = new Vector2(body.velocity.x, jumpHeight);
-        } else if(onWall() && !isGrounded()) {
+        }
+        // Wall Jump
+        else if(onWall() && !isGrounded()) {
             anim.SetTrigger("jump");
-            // TODO: DEBUG JUMP TRIGGER
-            // print("Jump triggered");
-            // Mathf.Sign returns the direction the character is facing (+ right, - left)
             body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 3, jumpHeight/2);
-            wallJumpCD = 0;
+            jumpCD = 0;
+        }
+        // Double Jump
+        else if(!onWall() && !isGrounded()){
+            anim.SetTrigger("doubleJump");
+            jumpCD = 0;
+            body.velocity = new Vector2(body.velocity.x, jumpHeight);
         }
     }
 
