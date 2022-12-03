@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     private float jumpCD;
     private float horizontal;
 
+    private bool canDoubleJump = true;
+
     [SerializeField] private float speed;
     [SerializeField] private float jumpHeight;
     [SerializeField] private LayerMask groundLayer;
@@ -59,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool("onWall", onWall());
 
         // Wall jump logic
-        if(jumpCD > 0.2f){
+        if(jumpCD > 0.3f){
             body.velocity = new Vector2(horizontal * speed, body.velocity.y);
 
             if(onWall() && !isGrounded()) {
@@ -77,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
 
         if(onWall())
             wallSlide();
+
+        setDoubleJumpFlag();
     }
 
     private void wallSlide(){
@@ -90,15 +94,16 @@ public class PlayerMovement : MonoBehaviour
         if(isGrounded()){
             anim.SetTrigger("jump");
             body.velocity = new Vector2(body.velocity.x, jumpHeight);
+            jumpCD = 0;
         }
         // Wall Jump
         else if(onWall() && !isGrounded()) {
             anim.SetTrigger("jump");
-            body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 3, jumpHeight/2);
+            body.velocity = new Vector2(-Mathf.Sign(transform.localScale.x) * 2, jumpHeight/2);
             jumpCD = 0;
         }
         // Double Jump
-        else if(!onWall() && !isGrounded()){
+        else if(!onWall() && !isGrounded() && canDoubleJump){
             anim.SetTrigger("doubleJump");
             jumpCD = 0;
             body.velocity = new Vector2(body.velocity.x, jumpHeight);
@@ -115,5 +120,11 @@ public class PlayerMovement : MonoBehaviour
     private bool onWall() {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
         return raycastHit.collider != null;
+    }
+
+    private void setDoubleJumpFlag(){
+        if(isGrounded())
+            // TODO: Change flag thing
+            canDoubleJump = true;
     }
 }
