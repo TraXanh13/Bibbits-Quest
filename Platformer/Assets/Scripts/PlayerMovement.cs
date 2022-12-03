@@ -105,6 +105,7 @@ public class PlayerMovement : MonoBehaviour
         // Double Jump
         else if(!onWall() && !isGrounded() && canDoubleJump){
             anim.SetTrigger("doubleJump");
+            canDoubleJump = false;
             jumpCD = 0;
             body.velocity = new Vector2(body.velocity.x, jumpHeight);
         }
@@ -124,7 +125,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void setDoubleJumpFlag(){
         if(isGrounded())
-            // TODO: Change flag thing
             canDoubleJump = true;
     }
 }
