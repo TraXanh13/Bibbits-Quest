@@ -8,6 +8,11 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer sprite;
     private Animator anim;
     private BoxCollider2D boxCollider;
+    private AudioClip sound;
+    private AudioSource soundSource;
+
+    // soundSource.clip = sound;
+    // soundSource.Play();
 
     private float jumpCD;
     private float horizontal;
@@ -85,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void wallSlide(){
         if(body.velocity.y <= 0){
-            body.velocity = new Vector2(body.velocity.x, -4);
+            body.velocity = new Vector2(body.velocity.x, -3);
         }
     }
 
@@ -93,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
         // Normal Jump
         if(isGrounded()){
             anim.SetTrigger("jump");
-            body.velocity = new Vector2(body.velocity.x, jumpHeight);
+            body.velocity = new Vector2(body.velocity.x * Mathf.Sign(Time.deltaTime), jumpHeight);
             jumpCD = 0;
         }
         // Wall Jump

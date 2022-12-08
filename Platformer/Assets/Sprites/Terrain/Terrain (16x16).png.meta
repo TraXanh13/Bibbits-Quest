@@ -215,9 +215,9 @@ TextureImporter:
       name: Grass Block
       rect:
         serializedVersion: 2
-        x: 96
+        x: 98
         y: 128
-        width: 48
+        width: 42
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -388,7 +388,7 @@ TextureImporter:
         width: 30
         height: 9
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -409,7 +409,7 @@ TextureImporter:
         width: 9
         height: 30
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -417,6 +417,27 @@ TextureImporter:
       bones: []
       spriteID: 4b76fb74177273540800000000000000
       internalID: 4987498479824627636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Orange Grass Block
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 64
+        width: 46
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82bea93fa4a7ee950800000000000000
+      internalID: 6480251376165907240
       vertices: []
       indices: 
       edges: []
