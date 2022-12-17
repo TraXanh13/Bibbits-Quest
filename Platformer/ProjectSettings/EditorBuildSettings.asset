@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial Level.unity
     guid: 9c0e1472cfab19b458fdd89040af6f25
+  - enabled: 1
+    path: Assets/Scenes/Lv 1. Parkour.unity
+    guid: 3b62d7f4bc399c94bb21d7cb510b0afd
   m_configObjects: {}
