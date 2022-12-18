@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,8 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private AudioClip sound;
     private AudioSource soundSource;
 
-    // soundSource.clip = sound;
-    // soundSource.Play();
+    AudioSource audioSrc;
 
     private float jumpCD;
     private float horizontal;
@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpHeight;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private LayerMask sideBorderLayer;
+    [SerializeField] private Image doubleJumpImg;
 
     // Start is called before the first frame update
     void Start() {
@@ -42,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
 
         // Gets the reference to the box collider
         boxCollider = GetComponent<BoxCollider2D>();
+
+        audioSrc = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -50,14 +54,18 @@ public class PlayerMovement : MonoBehaviour
         Vector3 characterScale = transform.localScale;
 
         // Flips the sprite depending on the direction the player is moving
-        if(horizontal > 0)
-        {
+        if(horizontal > 0) {
+            playMovementAudio();
             characterScale.x = 1;
         }
-        else if(horizontal < 0)
-        {
+        else if(horizontal < 0) {
+            playMovementAudio();
             characterScale.x = -1;
         }
+        else {
+            audioSrc.Stop();
+        }
+
         transform.localScale = characterScale;      
 
         // Sets the animation to idle if the player is not moving
@@ -82,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
             jumpCD += Time.deltaTime;
         }
 
-        if(onWall())
+        if(onWall() || onBorder())
             wallSlide();
 
         setDoubleJumpFlag();
@@ -109,6 +117,7 @@ public class PlayerMovement : MonoBehaviour
         }
         // Double Jump
         else if(!onWall() && !isGrounded() && canDoubleJump){
+            doubleJumpImg.color = Color.grey;
             anim.SetTrigger("doubleJump");
             canDoubleJump = false;
             jumpCD = 0;
@@ -128,8 +137,24 @@ public class PlayerMovement : MonoBehaviour
         return raycastHit.collider != null;
     }
 
+    // Checks if the player is touching a wall with raycast box collider
+    private bool onBorder() {
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, new Vector2(transform.localScale.x, 0), 0.1f, sideBorderLayer);
+        return raycastHit.collider != null;
+    }
+
     private void setDoubleJumpFlag(){
-        if(isGrounded())
+        if(isGrounded()){
             canDoubleJump = true;
+            doubleJumpImg.color = Color.white;
+        }
+    }
+
+    private void playMovementAudio() {
+        if(isGrounded() && !audioSrc.isPlaying){
+            audioSrc.Play();
+        } else if(!isGrounded()) {
+            audioSrc.Stop();
+        }
     }
 }
