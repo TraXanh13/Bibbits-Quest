@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Lv 2. Suvival.unity
     guid: 9577d9d6b01ff1941b7b9151c1207b83
+  - enabled: 1
+    path: Assets/Scenes/Lose.unity
+    guid: 1b1afed548872944ab6b3e253f7fef3e
   m_configObjects: {}
