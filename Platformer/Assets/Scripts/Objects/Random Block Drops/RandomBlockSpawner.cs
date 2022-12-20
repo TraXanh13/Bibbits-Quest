@@ -28,7 +28,7 @@ public class RandomBlockSpawner : MonoBehaviour
         for (int i = 0; i < times; i++) {
             int randBlockIndex = Random.Range(0, randBlocks.Length);
             GameObject randBlock = randBlocks[randBlockIndex];
-            Vector2 randomSpawnLocation = new Vector2(Random.Range(-45, -28), 5);
+            Vector2 randomSpawnLocation = new Vector2(Random.Range(-45, -28), -9);
             Instantiate(randBlock, randomSpawnLocation, Quaternion.identity);
         }
     }

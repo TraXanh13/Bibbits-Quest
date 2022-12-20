@@ -15,4 +15,9 @@ public class EndScreens : MonoBehaviour
         Debug.Log("Quit");
         Application.Quit();
     }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 }

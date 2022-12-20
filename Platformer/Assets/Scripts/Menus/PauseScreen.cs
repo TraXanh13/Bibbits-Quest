@@ -5,13 +5,13 @@ using UnityEngine;
 public class PauseScreen : MonoBehaviour
 {
     private bool isPaused = false;
-    private GameObject pauseMenuUI;
+    public GameObject pauseMenuUI;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    // // Start is called before the first frame update
+    // void Start()
+    // {
         
-    }
+    // }
 
     // Update is called once per frame
     void Update()
@@ -27,15 +27,20 @@ public class PauseScreen : MonoBehaviour
         }
     }
 
-    private void resume(){
+    public void resume(){
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
     }
 
-    private void paused(){
+    public void paused(){
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
+    }
+
+    public void quit(){
+        Debug.Log("Quit");
+        Application.Quit();
     }
 }
